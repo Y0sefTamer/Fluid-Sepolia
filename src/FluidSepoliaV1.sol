@@ -3,4 +3,4 @@ pragma solidity ^0.8.19;
 
 import {FluidSepoliaLayout} from "./FluidSepoliaLayout.sol";
 
-contract FluidSepoliaLogic {}
+contract FluidSepoliaV1 {}
