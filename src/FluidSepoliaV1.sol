@@ -12,13 +12,13 @@ import {FluidSepoliaLayout} from "./FluidSepoliaLayout.sol";
 
 // @dev This contract is designed to be upgradeable using OpenZeppelin's UUPS proxy pattern. It inherits from Initializable, OwnableUpgradeable, and UUPSUpgradeable for upgradeability and access control. The layout of the contract is defined in FluidSepoliaLayout, which includes state variables and events for tracking donations and withdrawals.
 
-// error
-error FluidSepoliaV1_CooldownNotPassed();
-error FluidSepoliaV1_InsufficientDonationAmount();
-error FluidSepoliaV1_DonationMustBeGreaterThanThisAmount();
-error FluidSepoliaV1_OnlyOwnerCanUpdateCooldownTime();
-
 contract FluidSepoliaV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, FluidSepoliaLayout {
+    // error
+    error FluidSepoliaV1_CooldownNotPassed();
+    error FluidSepoliaV1_InsufficientDonationAmount();
+    error FluidSepoliaV1_DonationMustBeGreaterThanThisAmount();
+    error FluidSepoliaV1_OnlyOwnerCanUpdateCooldownTime();
+
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -43,7 +43,7 @@ contract FluidSepoliaV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, F
 
     // Function to withdraw funds
     function withdraw() external {
-        if (block.timestamp < lastWithdrawalTime[msg.sender] + cooldownTime) {
+        if (lastWithdrawalTime[msg.sender] != 0 && block.timestamp < lastWithdrawalTime[msg.sender] + cooldownTime) {
             revert FluidSepoliaV1_CooldownNotPassed();
         }
         if (address(this).balance < withdrawalAmount) {
@@ -100,18 +100,11 @@ contract FluidSepoliaV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, F
         return address(this).balance;
     }
 
-    // fallback function to accept Ether sent directly to the contract
-    receive() external payable {
-        donate();
-    }
-
-    // fallback function to handle calls to non-existent functions
-    fallback() external payable {
-        donate();
-    }
-
     // Function to calculate remaining time for a user's next withdrawal
     function getTimeUntilNextWithdrawal(address _user) external view returns (uint256) {
+        if (lastWithdrawalTime[_user] == 0) {
+            return 0;
+        }
         uint256 nextAvailableTime = lastWithdrawalTime[_user] + cooldownTime;
 
         // If the current time is past the next available time, return 0 to indicate that the user can withdraw immediately
@@ -120,6 +113,16 @@ contract FluidSepoliaV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, F
         }
         // Otherwise, return the remaining time until the next withdrawal is available
         return nextAvailableTime - block.timestamp;
+    }
+
+    // fallback function to accept Ether sent directly to the contract
+    receive() external payable {
+        donate();
+    }
+
+    // fallback function to handle calls to non-existent functions
+    fallback() external payable {
+        donate();
     }
 
     // Required by UUPSUpgradeable to authorize upgrades
