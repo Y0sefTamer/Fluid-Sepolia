@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 abstract contract FluidSepoliaLayout {
-
     // State Variables
     uint256 internal withdrawalAmount; // Amount that can be withdrawn by users
     uint256 internal cooldownTime; // Time in seconds for cooldown between withdrawals
@@ -15,7 +14,9 @@ abstract contract FluidSepoliaLayout {
     // event for logging withdrawals
     event WithdrawalMade(address indexed recipient, uint256 amount);
     // event for logging cooldown time updates
-    event CooldownTimeUpdated(uint256 newCooldownTime);
+    event CooldownTimeUpdated(uint256 oldCooldownTime, uint256 newCooldownTime);
+    // event for logging withdrawal amount updates
+    event WithdrawalAmountUpdated(uint256 oldWithdrawalAmount, uint256 newWithdrawalAmount);
 
     // Storage Gap
     uint256[50] private __gap; // for future upgrades
