@@ -42,7 +42,7 @@ To run this project locally:
 Clone the repository:
 
 ```
-git clone https://github.com/Y0sefTamer/Fluid-Sepolia
+git clone https://github.com/Y0sefTamer/Fluid-Sepolia.git
 cd FluidSepolia
 ```
 Install dependencies:
