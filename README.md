@@ -29,7 +29,7 @@ const contract = new ethers.Contract(PROXY_ADDRESS, LOGIC_ABI, providerOrSigner)
 
 
 ## ⚙️ Main Functions
-donate(): Public payable function to fund the faucet (Minimum 0.001 ETH).
+donate(): Public payable function to fund the faucet Minimum 0.001 ETH.
 
 withdraw(): Allows users to claim 0.05 Sepolia ETH.
 
@@ -42,7 +42,7 @@ To run this project locally:
 Clone the repository:
 
 ```
-git clone <your-repo-link>
+git clone https://github.com/Y0sefTamer/Fluid-Sepolia
 cd FluidSepolia
 ```
 Install dependencies:
