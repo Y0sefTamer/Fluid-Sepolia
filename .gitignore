@@ -8,8 +8,10 @@ out/
 /broadcast/**/dry-run/
 /broadcast
 
-# Docs
-docs/
+# Docs (generated docs are ignored; README screenshots are tracked)
+docs/*
+!docs/screenshots/
+!docs/screenshots/**
 
 # Dotenv file
 .env
