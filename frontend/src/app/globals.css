@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --font-inter: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    --font-sora: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+      Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+      'Liberation Mono', monospace;
+    --bg: 246 249 248;
+    --surface: 255 255 255;
+    --elevated: 255 255 255;
+    --fg: 8 22 21;
+    --muted: 82 104 102;
+    --line: 15 42 40;
+    --accent: 11 122 114;
+    --accent-2: 14 116 144;
+    --accent-soft: 204 251 241;
+    --accent-fg: 255 255 255;
+    --positive: 4 120 87;
+    --warning: 180 83 9;
+    --danger: 190 18 60;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --bg: 5 13 14;
+    --surface: 11 24 26;
+    --elevated: 14 29 31;
+    --fg: 235 247 244;
+    --muted: 141 166 162;
+    --line: 190 224 218;
+    --accent: 45 212 191;
+    --accent-2: 56 189 248;
+    --accent-soft: 20 63 58;
+    --accent-fg: 3 17 14;
+    --positive: 52 211 153;
+    --warning: 251 191 36;
+    --danger: 251 113 133;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    background-image:
+      radial-gradient(58rem 38rem at 12% -8%, rgb(var(--accent) / 0.11), transparent 62%),
+      radial-gradient(46rem 34rem at 92% 4%, rgb(var(--accent-2) / 0.09), transparent 58%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgb(var(--accent) / 0.28);
+    color: rgb(var(--fg));
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line) / 0.25) transparent;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply border border-line/10 bg-surface/70 backdrop-blur-xl;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line/10 bg-surface/70 shadow-card backdrop-blur-xl;
+  }
+
+  .card-hover {
+    @apply transition duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-glow;
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      140deg,
+      rgb(var(--accent) / 0.55),
+      rgb(var(--line) / 0.12) 42%,
+      transparent 72%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(to right, rgb(var(--line) / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--line) / 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 78%);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .stat-value {
+    @apply font-mono text-xl font-semibold tracking-tight text-fg sm:text-2xl lg:text-[1.7rem];
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-line/10 bg-surface/60 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-muted backdrop-blur;
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
